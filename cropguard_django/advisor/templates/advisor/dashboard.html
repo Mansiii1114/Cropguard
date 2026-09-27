@@ -1,0 +1,15 @@
+{% extends "advisor/base.html" %}
+{% block content %}
+<h2 class="title">Welcome back, {{ request.user.first_name|default:request.user.username }}</h2>
+<p class="lede">A quick look at your farm's recent activity and where to start next.</p>
+<div class="grid-stats">
+  <div class="stat"><div class="num">{{ count }}</div><div class="lbl">Recommendations run</div></div>
+  <div class="stat"><div class="num">{{ latest.crop|default:"—" }}</div><div class="lbl">Top suggested crop</div></div>
+  <div class="stat"><div class="num">{{ latest.risk_label|default:"—" }}</div><div class="lbl">Last risk level</div></div>
+</div>
+<div class="card">
+  <h3>Get started</h3>
+  <p class="lede" style="margin-bottom:16px;">Run a soil and weather check to get three ranked crop options, or scan symptoms if a crop already looks unwell.</p>
+  <a class="primary-btn" style="display:inline-block; text-decoration:none;" href="{% url 'recommend' %}">New recommendation</a>
+</div>
+{% endblock %}

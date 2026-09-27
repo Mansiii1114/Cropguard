@@ -1,0 +1,20 @@
+{% extends "advisor/base.html" %}
+{% block content %}
+<h2 class="title">History</h2>
+<p class="lede">Every recommendation you've run, most recent first.</p>
+<div class="card">
+  {% if history %}
+    {% for h in history %}
+    <div class="hist-item">
+      <div>
+        <div class="crop">{{ h.crop }} <span style="color:var(--paper-dim);font-weight:400;">· {{ h.match_score }}/10</span></div>
+        <div class="meta">{{ h.created_at|date:"d M Y" }} · N {{ h.nitrogen|default:"–" }} P {{ h.phosphorus|default:"–" }} K {{ h.potassium|default:"–" }} · {{ h.season }}</div>
+      </div>
+      <span class="badge {{ h.risk_label|lower }}">{{ h.risk_label }} risk</span>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="empty">No recommendations yet. Run one from the Crop Recommendation tab.</p>
+  {% endif %}
+</div>
+{% endblock %}

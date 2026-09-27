@@ -1,0 +1,13 @@
+{% extends "advisor/gate_base.html" %}
+{% block gate_content %}
+<h1>Welcome back</h1>
+<p class="sub">Sign in to see your crop recommendations and history.</p>
+<form method="post" class="gate-form">
+  {% csrf_token %}
+  <div class="field"><label>Username</label>{{ form.username }}</div>
+  <div class="field"><label>Password</label>{{ form.password }}</div>
+  <button class="primary-btn" type="submit">Log in</button>
+  <div class="err">{% if error %}{{ error }}{% endif %}</div>
+</form>
+<p class="gate-switch">New here? <a href="{% url 'signup' %}">Create an account</a></p>
+{% endblock %}

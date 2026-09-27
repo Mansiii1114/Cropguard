@@ -1,0 +1,32 @@
+{% extends "advisor/base.html" %}
+{% block content %}
+<h2 class="title">Disease check</h2>
+<p class="lede">Select what you're seeing on the plant. This classifies against common patterns — always confirm serious cases with a local agronomist.</p>
+<div class="card">
+  <form method="post">
+    {% csrf_token %}
+    <h3>Symptoms observed</h3>
+    <div class="checkbox-list">{{ form.symptoms }}</div>
+    <button class="primary-btn" style="margin-top:10px;" type="submit">Check symptoms</button>
+  </form>
+
+  {% if results %}
+  <div class="results-wrap">
+    {% for c in results %}
+    <div class="result {% if forloop.first %}best{% endif %}">
+      {% if forloop.first %}<span class="best-flag">Most likely</span>{% endif %}
+      <div class="result-top">
+        <div class="diag-name">{{ c.name }}</div>
+        <div class="score">{{ c.conf }}<span>%</span></div>
+      </div>
+      <div class="risk-line" style="margin-top:6px;">Severity: <strong style="color:var(--paper)">{{ c.severity }}</strong></div>
+      <div class="pro-con pros"><h5>Treatment</h5><ul>{% for t in c.treatment %}<li>{{ t }}</li>{% endfor %}</ul></div>
+      <div class="pro-con prevent"><h5>Prevention</h5><ul>{% for pr in c.prevention %}<li>{{ pr }}</li>{% endfor %}</ul></div>
+    </div>
+    {% endfor %}
+  </div>
+  {% elif checked %}
+  <div class="result"><div class="diag-name">No clear match</div><p class="lede" style="margin-top:8px;">Try adding more symptoms, or consult a local agronomist for a physical inspection.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

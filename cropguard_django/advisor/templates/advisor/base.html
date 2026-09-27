@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CropGuard — Crop Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'advisor/style.css' %}">
+</head>
+<body>
+<div id="app" class="active">
+  <nav class="sidebar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 4 6v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6l-8-4Z"/><path d="M9 12l2 2 4-4"/></svg>
+      CropGuard
+    </div>
+    <a class="nav-item {% if request.resolver_match.url_name == 'dashboard' or request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'dashboard' %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item {% if request.resolver_match.url_name == 'recommend' %}active{% endif %}" href="{% url 'recommend' %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21c-4-3-6-6.5-6-10a6 6 0 0 1 12 0c0 3.5-2 7-6 10Z"/><path d="M12 11v6"/></svg>
+      Crop Recommendation
+    </a>
+    <a class="nav-item {% if request.resolver_match.url_name == 'disease' %}active{% endif %}" href="{% url 'disease' %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M10 14v2a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="9" r="2"/></svg>
+      Disease Check
+    </a>
+    <a class="nav-item {% if request.resolver_match.url_name == 'history' %}active{% endif %}" href="{% url 'history' %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      History
+    </a>
+    <a class="nav-item {% if request.resolver_match.url_name == 'library' or request.resolver_match.url_name == 'crop_detail' %}active{% endif %}" href="{% url 'library' %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5A2.5 2.5 0 0 1 17.5 21H4Z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/></svg>
+      Crop Library
+    </a>
+    <div class="sidebar-foot">
+      <div class="who">{{ request.user.first_name|default:request.user.username }}</div>
+      <a class="logout" href="{% url 'logout' %}">Log out</a>
+    </div>
+  </nav>
+  <main class="main">
+    {% block content %}{% endblock %}
+  </main>
+</div>
+</body>
+</html>

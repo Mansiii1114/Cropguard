@@ -1,0 +1,46 @@
+{% extends "advisor/base.html" %}
+{% block content %}
+<h2 class="title">Crop recommendation</h2>
+<p class="lede">Enter your soil test and local weather figures. CropGuard scores every crop in its library against them and returns the top three matches, each rated out of 10 with its own season risk.</p>
+<div class="card">
+  <form method="post">
+    {% csrf_token %}
+    <h3>Soil nutrients (kg/ha)</h3>
+    <div class="row3">
+      <div class="field"><label>{{ form.nitrogen.label }}</label>{{ form.nitrogen }}</div>
+      <div class="field"><label>{{ form.phosphorus.label }}</label>{{ form.phosphorus }}</div>
+      <div class="field"><label>{{ form.potassium.label }}</label>{{ form.potassium }}</div>
+    </div>
+    <h3 style="margin-top:6px;">Field conditions</h3>
+    <div class="row3">
+      <div class="field"><label>{{ form.ph.label }}</label>{{ form.ph }}</div>
+      <div class="field"><label>{{ form.temperature.label }}</label>{{ form.temperature }}</div>
+      <div class="field"><label>{{ form.humidity.label }}</label>{{ form.humidity }}</div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>{{ form.rainfall.label }}</label>{{ form.rainfall }}</div>
+      <div class="field"><label>{{ form.season.label }}</label>{{ form.season }}</div>
+    </div>
+    <button class="primary-btn" type="submit">Get recommendations</button>
+  </form>
+
+  {% if results %}
+  <div class="results-wrap">
+    {% for c in results %}
+    <div class="result {% if forloop.first %}best{% endif %}">
+      {% if forloop.first %}<span class="best-flag">Best match</span>{% endif %}
+      <div class="result-top">
+        <div class="crop-name">{{ c.name }}</div>
+        <div class="score">{{ c.score10 }}<span>/10</span></div>
+      </div>
+      <div class="risk-bar risk-{{ c.risk_label|lower }}"><div style="width:{{ c.risk_score }}%"></div></div>
+      <div class="risk-line">Season risk: <strong style="color:var(--paper)">{{ c.risk_label }}</strong> ({{ c.risk_score }}/100) · {{ c.water }} water need</div>
+      <div class="pro-con pros"><h5>Advantages</h5><ul>{% for a in c.adv|slice:":2" %}<li>{{ a }}</li>{% endfor %}</ul></div>
+      <div class="pro-con cons"><h5>Disadvantages</h5><ul>{% for d in c.dis|slice:":2" %}<li>{{ d }}</li>{% endfor %}</ul></div>
+      <ul class="reasons">{% for r in c.reasons %}<li>{{ r }}</li>{% endfor %}</ul>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

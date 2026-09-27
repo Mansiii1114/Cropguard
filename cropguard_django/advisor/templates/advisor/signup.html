@@ -1,0 +1,14 @@
+{% extends "advisor/gate_base.html" %}
+{% block gate_content %}
+<h1>Set up your farm</h1>
+<p class="sub">Takes a minute to get started.</p>
+<form method="post" class="gate-form">
+  {% csrf_token %}
+  <div class="field"><label>Your name</label>{{ form.first_name }}{{ form.first_name.errors }}</div>
+  <div class="field"><label>Username</label>{{ form.username }}{{ form.username.errors }}</div>
+  <div class="field"><label>Password</label>{{ form.password1 }}{{ form.password1.errors }}</div>
+  <div class="field"><label>Confirm password</label>{{ form.password2 }}{{ form.password2.errors }}</div>
+  <button class="primary-btn" type="submit">Create account</button>
+</form>
+<p class="gate-switch">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+{% endblock %}

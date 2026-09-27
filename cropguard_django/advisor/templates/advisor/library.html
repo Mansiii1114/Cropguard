@@ -1,0 +1,15 @@
+{% extends "advisor/base.html" %}
+{% block content %}
+<h2 class="title">Crop library</h2>
+<p class="lede">Click any crop for the full picture — ideal ranges, advantages, drawbacks, and how demanding it is to grow.</p>
+<div class="lib-grid">
+  {% for c in crops %}
+  <a class="crop-tile" style="text-decoration:none; display:block;" href="{% url 'crop_detail' c.name %}">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c-4-3-6-6.5-6-10a6 6 0 0 1 12 0c0 3.5-2 7-6 10Z"/><path d="M12 11v6"/></svg>
+    <h4>{{ c.name }}</h4>
+    <div class="short">{{ c.desc }}</div>
+    <span class="diff-tag">{{ c.difficulty }} to grow</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
